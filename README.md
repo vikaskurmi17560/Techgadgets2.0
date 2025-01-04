@@ -32,8 +32,8 @@ To get a local copy up and running, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/vikaskurmi17560/TechGadgets.git
-    cd TechGadgets
+    git clone https://github.com/vikaskurmi17560/Techgadgets2.0.git
+    cd Techgadgets
     ```
 
 2. Install dependencies:
@@ -50,11 +50,9 @@ To get a local copy up and running, follow these steps:
 
 ## Deployment
 
-- **NOTE** :  When you click on this URL, you may encounter an error page. However, don’t worry! Simply click the "Go Back to Home" button to return to the main page and continue exploring the fantastic features of the TechGadgets application.
-
 TechGadgets is designed to provide an engaging experience for users looking to browse, filter, and purchase a wide range of tech products. With its clean and modern interface, users can easily navigate through different categories and access detailed product information
 
-This project is deployed on GitHub Pages. You can view the live application at: [TechGadgets Live](https://vikaskurmi17560.github.io/TechGadgets2.0/).  
+This project is deployed on Netlify. You can view the live application at: [TechGadgets Live](https://6778c002c580977e31f60379--techgadgets2.netlify.app/).  
 
 ## Contributing
 
