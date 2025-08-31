@@ -4,11 +4,11 @@ import reducer from "../Reducer/CartReducer";
 const CartContext = createContext();
 
 const getLocalCartData = () => {
-  let localCartData = localStorage.getItem("Cart");
-  if (localCartData === null) {
+  try {
+    const localCartData = localStorage.getItem("Cart");
+    return localCartData ? JSON.parse(localCartData) : [];
+  } catch (error) {
     return [];
-  } else {
-    return JSON.parse(localCartData);
   }
 };
 
@@ -16,13 +16,14 @@ const initialState = {
   cart: getLocalCartData(),
   total_item: 0,
   total_price: 0,
-  shipping_fee: 50000,
+  shipping_fee: 150,
 };
 
 const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addToCart = (id, color, amount, product) => {
+    if (amount < 1) return;
     dispatch({ type: "ADD_TO_CART", payload: { id, color, amount, product } });
   };
 
@@ -38,6 +39,7 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
   };
 
+  
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
   };
@@ -56,14 +58,13 @@ const CartProvider = ({ children }) => {
         clearCart,
         setDecrease,
         setIncrement,
-      }}>
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
-const useCartContext = () => {
-  return useContext(CartContext);
-};
+const useCartContext = () => useContext(CartContext);
 
 export { CartProvider, useCartContext };

@@ -1,49 +1,46 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
+const brandImages = [
+  {
+    src: "https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image2.png",
+    alt: "Brand 1"
+  },
+  {
+    src: "https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image3.png",
+    alt: "Brand 2"
+  },
+  {
+    src: "https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image4.png",
+    alt: "Brand 3"
+  },
+  {
+    src: "https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image6.png",
+    alt: "Brand 4"
+  },
+  {
+    src: "https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image8.png",
+    alt: "Brand 5"
+  }
+];
+
 const Trusted = () => {
-  return <Wrapper className="brand-section">
-    <div className="container">
-      <h3>Trusted By 1000+ Companies</h3>
-      <div className="brand-section-slider">
-        {/* my 1st img  */}
-        <div className="slide">
-          <img
-            src="https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image2.png"
-            alt="trusted-brands"
-          />
-        </div>
-        <div className="slide">
-          <img
-            src="https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image3.png"
-            alt="trusted-brands"
-          />
-        </div>
-        <div className="slide">
-          <img
-            src="https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image4.png"
-            alt="trusted-brands"
-          />
-        </div>
-        <div className="slide">
-          <img
-            src="https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image6.png"
-            alt="trusted-brands"
-          />
-        </div>
-        <div className="slide">
-          <img
-            src="https://raw.githubusercontent.com/solodev/infinite-logo-carousel/master/images/image8.png"
-            alt="trusted-brands"
-          />
+  return (
+    <Wrapper className="brand-section">
+      <div className="container">
+        <h3>Trusted By 1000+ Companies</h3>
+        <div className="brand-section-slider">
+          {brandImages.map((img, idx) => (
+            <div className="slide" key={idx}>
+              <img src={img.src} alt={img.alt} />
+            </div>
+          ))}
         </div>
       </div>
-    </div>
-  </Wrapper>
+    </Wrapper>
+  );
+};
 
-
-
-}
 const Wrapper = styled.section`
   padding: 9rem 0;
   background-color: ${({ theme }) => theme.colors.bg};
@@ -77,10 +74,9 @@ const Wrapper = styled.section`
       margin-top: 3.2rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      /* background-color: red; */
       text-align: center;
     }
   }
 `;
 
-export default Trusted
+export default Trusted;

@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import axios from "axios";
-import reducer from '../Reducer/ProductReducer'
+import reducer from '../Reducer/ProductReducer';
 
 const AppContext = createContext();
 
-const API = "https://api.pujakaitem.com/api/products";
+const API = "https://techgadgets-products-api-vikaskurmi17560.onrender.com/api";
 
 const initialState = {
   isLoading: false,
@@ -22,28 +22,34 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "SET_LOADING" });
     try {
       const res = await axios.get(url);
-      const products = await res.data;
-      dispatch({ type: "SET_API_DATA", payload: products });
+      if (res.data.success && Array.isArray(res.data.data)) {
+        dispatch({ type: "SET_API_DATA", payload: res.data.data });
+      } else {
+        dispatch({ type: "API_ERROR" });
+      }
     } catch (error) {
+      console.error("Error fetching products:", error);
       dispatch({ type: "API_ERROR" });
     }
   };
 
-
-
-  const getSingleProduct = async (url) => {
+  const getSingleProduct = async (id) => {
     dispatch({ type: "SET_SINGLE_LOADING" });
     try {
-      const res = await axios.get(url);
-      const singleProduct = await res.data;
-      dispatch({ type: "SET_SINGLE_PRODUCT", payload: singleProduct });
+      const res = await axios.get(`${API}/singleProduct?_id=${id}`);
+      if (res.data.success && res.data.data) {
+        dispatch({ type: "SET_SINGLE_PRODUCT", payload: res.data.data });
+      } else {
+        dispatch({ type: "SET_SINGLE_ERROR" });
+      }
     } catch (error) {
+      console.error("Error fetching single product:", error);
       dispatch({ type: "SET_SINGLE_ERROR" });
     }
   };
 
   useEffect(() => {
-    getProducts(API);
+    getProducts(`${API}/products`);
   }, []);
 
   return (
@@ -53,8 +59,6 @@ const AppProvider = ({ children }) => {
   );
 };
 
-const useProductContext = () => {
-  return useContext(AppContext);
-};
+const useProductContext = () => useContext(AppContext);
 
 export { AppProvider, AppContext, useProductContext };

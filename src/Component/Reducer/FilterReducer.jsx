@@ -17,7 +17,7 @@ const initialState = {
 const filterReducer = (state, action) => {
   switch (action.type) {
     case "LOAD_FILTER_PRODUCTS":
-      let priceArr = action.payload.map((curElem) => curElem.price);
+      let priceArr = action.payload.map((curElem) => curElem.Sale_Price);
       let maxPrice = Math.max(...priceArr);
 
       return {
@@ -52,10 +52,10 @@ const filterReducer = (state, action) => {
 
       const sortingProducts = (a, b) => {
         if (sorting_value === "lowest") {
-          return a.price - b.price;
+          return a.Sale_Price - b.Sale_Price;
         }
         if (sorting_value === "highest") {
-          return b.price - a.price;
+          return b.Sale_Price - a.Sale_Price;
         }
         if (sorting_value === "a-z") {
           return a.name.localeCompare(b.name);
@@ -89,7 +89,7 @@ const filterReducer = (state, action) => {
 
       if (text) {
         tempFilterProduct = tempFilterProduct.filter((curElem) => {
-          return curElem.name.toLowerCase().includes(text);
+          return curElem.name.toLowerCase().includes(text.toLowerCase());
         });
       }
 
@@ -101,15 +101,22 @@ const filterReducer = (state, action) => {
 
       if (company !== "all") {
         tempFilterProduct = tempFilterProduct.filter(
-          (curElem) => curElem.company.toLowerCase() === company.toLowerCase()
+          (curElem) => curElem.Brand && curElem.Brand.toLowerCase() === company.toLowerCase()
         );
       }
 
       if (color !== "all") {
         tempFilterProduct = tempFilterProduct.filter((curElem) =>
-          curElem.colors.includes(color)
+          Array.isArray(curElem.color)
+            ? curElem.color.includes(color)
+            : curElem.color === color
         );
       }
+
+     
+      tempFilterProduct = tempFilterProduct.filter(
+        (curElem) => curElem.Sale_Price <= price
+      );
 
       return {
         ...state,
@@ -120,13 +127,10 @@ const filterReducer = (state, action) => {
       return {
         ...state,
         filters: {
-          ...initialState.filters, 
-          text: "",
-          category: "all",
-          company: "all",
-          color: "all",
-          price: initialState.filters.price, 
+          ...state.filters,
+          ...action.payload,
         },
+        filter_products: state.all_products, 
       };
 
     default:

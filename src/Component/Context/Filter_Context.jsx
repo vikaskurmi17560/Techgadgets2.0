@@ -1,7 +1,7 @@
-// FilterContext.jsx
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { useProductContext } from "../Context/ProductContext";
-import filterReducer from "../Reducer/FilterReducer"; 
+import filterReducer from "../Reducer/FilterReducer";
+
 const FilterContext = createContext();
 
 const initialState = {
@@ -21,8 +21,7 @@ const initialState = {
 };
 
 export const FilterContextProvider = ({ children }) => {
-  const { products } = useProductContext();
-
+  const { products, isLoading, isError } = useProductContext();
   const [state, dispatch] = useReducer(filterReducer, initialState);
 
   const setGridView = () => {
@@ -44,17 +43,28 @@ export const FilterContextProvider = ({ children }) => {
   };
 
   const clearFilters = () => {
-    dispatch({ type: "CLEAR_FILTERS" });
+    dispatch({
+      type: "CLEAR_FILTERS",
+      payload: {
+        text: "",
+        category: "all",
+        company: "all",
+        color: "all",
+        price: state.maxPrice,
+        minPrice: state.minPrice,
+        maxPrice: state.maxPrice,
+      },
+    });
   };
+
+  useEffect(() => {
+    dispatch({ type: "LOAD_FILTER_PRODUCTS", payload: products });
+  }, [products]);
 
   useEffect(() => {
     dispatch({ type: "FILTER_PRODUCTS" });
     dispatch({ type: "SORTING_PRODUCTS" });
   }, [products, state.sorting_value, state.filters]);
-
-  useEffect(() => {
-    dispatch({ type: "LOAD_FILTER_PRODUCTS", payload: products });
-  }, [products]);
 
   return (
     <FilterContext.Provider
@@ -65,6 +75,8 @@ export const FilterContextProvider = ({ children }) => {
         sorting,
         updateFilterValue,
         clearFilters,
+        isLoading,
+        isError,
       }}
     >
       {children}

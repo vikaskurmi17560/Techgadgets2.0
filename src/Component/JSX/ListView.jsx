@@ -3,27 +3,53 @@ import styled from "styled-components";
 import FormatPrice from "../Helper/FormatPrice";
 import { Button } from "../Styles/Button";
 
+const ListSkeleton = () => (
+  <Wrapper className="section">
+    <div className="container grid">
+      {[...Array(6)].map((_, idx) => (
+        <div className="card grid grid-two-column" key={idx}>
+          <figure>
+            <div className="skeleton-image" />
+          </figure>
+          <div className="card-data">
+            <div className="skeleton-title" />
+            <div className="skeleton-price" />
+            <div className="skeleton-desc" />
+            <div className="skeleton-btn" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </Wrapper>
+);
 
-const ListView = ({ products }) => {
+const ListView = ({ products, isLoading }) => {
+  if (isLoading) return <ListSkeleton />;
   return (
     <Wrapper className="section">
       <div className="container grid">
         {products.map((curElem) => {
-          const { id, name, image, price, description } = curElem;
+          const {
+            _id,
+            name,
+            imageUrl,
+            Sale_Price,
+            Description
+          } = curElem;
           return (
-            <div className="card grid grid-two-column">
+            <div className="card grid grid-two-column" key={_id}>
               <figure>
-                <img src={image} alt={name} />
+                <img src={imageUrl} alt={name} />
               </figure>
 
               <div className="card-data">
                 <h3>{name}</h3>
                 <p>
-                  <FormatPrice price={price} />
+                  <FormatPrice price={Sale_Price} />
                 </p>
-                <p>{description.slice(0, 90)}...</p>
+                <p>{Description ? Description.slice(0, 90) : ""}...</p>
 
-                <NavLink to={`/singleproduct/${id}`} className="btn-main">
+                <NavLink to={`/singleproduct/${_id}`} className="btn-main">
                   <Button className="btn">Read More</Button>
                 </NavLink>
               </div>
@@ -71,11 +97,17 @@ const Wrapper = styled.section`
     &:hover img {
       transform: scale(1.2);
     }
-    img {
+    img, .skeleton-image {
       max-width: 90%;
       margin-top: 1.5rem;
       height: 20rem;
       transition: all 0.2s linear;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+    .skeleton-image {
+      background: #e0e0e0;
+      animation: skeleton-loading 1.2s infinite linear alternate;
     }
   }
 
@@ -84,13 +116,46 @@ const Wrapper = styled.section`
 
     .card-data {
       padding: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
     }
 
-    h3 {
+    h3, .skeleton-title {
       margin: 2rem 0;
       font-weight: 300;
       font-size: 2.4rem;
       text-transform: capitalize;
+      background: none;
+    }
+    .skeleton-title {
+      width: 60%;
+      height: 32px;
+      background: #e0e0e0;
+      border-radius: 8px;
+      animation: skeleton-loading 1.2s infinite linear alternate;
+    }
+    .skeleton-price {
+      width: 40%;
+      height: 24px;
+      background: #e0e0e0;
+      border-radius: 6px;
+      animation: skeleton-loading 1.2s infinite linear alternate;
+    }
+    .skeleton-desc {
+      width: 100%;
+      height: 40px;
+      background: #e0e0e0;
+      border-radius: 8px;
+      animation: skeleton-loading 1.2s infinite linear alternate;
+    }
+    .skeleton-btn {
+      width: 120px;
+      height: 40px;
+      background: #e0e0e0;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      animation: skeleton-loading 1.2s infinite linear alternate;
     }
 
     .btn {
@@ -117,6 +182,15 @@ const Wrapper = styled.section`
 
     .btn-main .btn:hover {
       color: #fff;
+    }
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      background-color: #e0e0e0;
+    }
+    100% {
+      background-color: #f5f5f5;
     }
   }
 `;

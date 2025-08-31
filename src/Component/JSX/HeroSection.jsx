@@ -1,37 +1,37 @@
-import React from 'react'
-import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
-import {Button} from '../Styles/Button'
-import Image from '../Images/hero.jpg'
-const HeroSection = ({myData}) => {
-    const {name} = myData;
+import React from 'react';
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import { Button } from '../Styles/Button';
+import Image from '../Images/hero.jpg';
+
+const HeroSection = ({ myData }) => {
+  const { name } = myData;
   return (
     <Wrapper>
-<div className="container">
-    <div className="grid grid-two-column"> 
-        <div className="hero-section-data">
-            <p className="intro-data">
-                Welcome to 
-            </p>
-            <h1> {name}</h1>
+      <div className="container">
+        <div className="grid grid-two-column">
+          <div className="hero-section-data">
+            <p className="intro-data">Welcome to</p>
+            <h1>{name}</h1>
             <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae quidem voluptate ipsa ipsum voluptatibus ratione alias voluptatem nobis. Asperiores dolorum perferendis animi atque nihil ipsum nam temporibus, unde sapiente! Necessitatibus vitae itaque ipsum corporis possimus doloribus praesentium, atque, asperiores ex fugiat a aut iste officia maxime enim et, incidunt ullam?
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae quidem voluptate ipsa ipsum voluptatibus ratione alias voluptatem nobis. Asperiores dolorum perferendis animi atque nihil ipsum nam temporibus, unde sapiente! Necessitatibus vitae itaque ipsum corporis possimus doloribus praesentium, atque, asperiores ex fugiat a aut iste officia maxime enim et, incidunt ullam?
             </p>
-            <NavLink to='/products'>
-                 <Button>show now</Button>
+            <NavLink to="/products">
+              <Button>Shop Now</Button>
             </NavLink>
-        </div>
-        <div className="hero-section-image">
+          </div>
+          <div className="hero-section-image">
             <figure>
-            <img src={Image} alt='hero-section-photo' className='img-style'/>
+              <img src={Image} alt="Hero section showing tech gadgets" className="img-style" />
             </figure>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
     </Wrapper>
-  )
-}
-const Wrapper=styled.section`
+  );
+};
+
+const Wrapper = styled.section`
   padding: 12rem 0;
 
   img {
@@ -91,9 +91,9 @@ const Wrapper=styled.section`
       height: 100%;
       left: 0;
       top: 10%;
-      /* bottom: 10%; */
       background-color: rgba(81, 56, 238, 0.4);
     }
   }
 `;
-export default HeroSection
+
+export default HeroSection;

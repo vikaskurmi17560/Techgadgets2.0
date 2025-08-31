@@ -4,15 +4,25 @@ import GridView from "./GridView";
 import ListView from "./ListView";
 
 const ProductList = () => {
-  const { filter_products, grid_view } = useFilterContext();
+  const { filter_products, grid_view, isLoading, isError } = useFilterContext();
 
-  if (grid_view === true) {
-    return <GridView products={filter_products} />;
+  if (isLoading) {
+    return <div>Loading products...</div>;
   }
 
-  if (grid_view === false) {
-    return <ListView products={filter_products} />;
+  if (isError) {
+    return <div>Error loading products.</div>;
   }
+
+  if (!filter_products || filter_products.length === 0) {
+    return <div>No products found.</div>;
+  }
+
+  return grid_view ? (
+    <GridView products={filter_products} />
+  ) : (
+    <ListView products={filter_products} />
+  );
 };
 
 export default ProductList;

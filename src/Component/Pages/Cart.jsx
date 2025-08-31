@@ -1,12 +1,61 @@
 import styled from "styled-components";
 import { useCartContext } from "../Context/Cart_Context";
-import CartItem from "../JSX/CartItem";
+import CartItem, { CartItemSkeleton } from "../JSX/CartItem";
 import { NavLink } from "react-router-dom";
 import { Button } from "../Styles/Button";
 import FormatPrice from "../Helper/FormatPrice";
 
 const Cart = () => {
-  const { cart = [], clearCart, total_price, shipping_fee } = useCartContext();
+  const { cart = [], clearCart, total_price, shipping_fee, isLoading } = useCartContext();
+
+ 
+  if (isLoading && cart && cart.length > 0) {
+    return (
+      <Wrapper>
+        <div className="container">
+          <div className="cart_heading grid grid-five-column">
+            <p>Item</p>
+            <p className="cart-hide">Price</p>
+            <p>Quantity</p>
+            <p className="cart-hide">Subtotal</p>
+            <p>Remove</p>
+          </div>
+          <hr />
+          <div className="cart-item">
+            {[...Array(cart.length)].map((_, idx) => (
+              <CartItemSkeleton key={idx} />
+            ))}
+          </div>
+          <hr />
+          <div className="cart-two-button">
+            <NavLink to="/products">
+              <Button>Continue Shopping</Button>
+            </NavLink>
+            <Button className="btn btn-clear" disabled>
+              Clear Cart
+            </Button>
+          </div>
+          <div className="order-total--amount">
+            <div className="order-total--subdata">
+              <div>
+                <p>Subtotal:</p>
+                <div className="skeleton-total" />
+              </div>
+              <div>
+                <p>Shipping Fee:</p>
+                <div className="skeleton-total" />
+              </div>
+              <hr />
+              <div>
+                <p>Order Total:</p>
+                <div className="skeleton-total" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Wrapper>
+    );
+  }
 
   if (!cart || cart.length === 0) {
     return (
@@ -29,7 +78,7 @@ const Cart = () => {
         <hr />
         <div className="cart-item">
           {cart.map((curElem) => (
-            <CartItem key={curElem.id} {...curElem} />
+            <CartItem key={curElem._id} {...curElem} />
           ))}
         </div>
         <hr />
@@ -42,7 +91,6 @@ const Cart = () => {
           </Button>
         </div>
 
-        {/* order total amount */}
         <div className="order-total--amount">
           <div className="order-total--subdata">
             <div>
@@ -70,7 +118,6 @@ const Cart = () => {
     </Wrapper>
   );
 };
-
 
 const EmptyDiv = styled.div`
   display: grid;
@@ -130,7 +177,6 @@ const Wrapper = styled.section`
     text-transform: capitalize;
   }
   .cart-image--name {
-    /* background-color: red; */
     align-items: center;
     display: grid;
     gap: 1rem;
@@ -153,7 +199,6 @@ const Wrapper = styled.section`
       .color-style {
         width: 1.4rem;
         height: 1.4rem;
-
         border-radius: 50%;
       }
     }
@@ -223,6 +268,23 @@ const Wrapper = styled.section`
     div p:last-child {
       font-weight: bold;
       color: ${({ theme }) => theme.colors.heading};
+    }
+    .skeleton-total {
+      width: 80px;
+      height: 24px;
+      background: #e0e0e0;
+      border-radius: 8px;
+      animation: skeleton-loading 1.2s infinite linear alternate;
+      margin-left: 1rem;
+    }
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      background-color: #e0e0e0;
+    }
+    100% {
+      background-color: #f5f5f5;
     }
   }
 

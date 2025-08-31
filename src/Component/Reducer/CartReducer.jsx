@@ -4,7 +4,6 @@ const cartReducer = (state, action) => {
       const { id, color, amount, product } = action.payload;
       const productId = id + color;
 
-      // Ensure state.cart is treated as an array
       const existingProduct = (state.cart || []).find(
         (item) => item.id === productId
       );
@@ -21,11 +20,12 @@ const cartReducer = (state, action) => {
       } else {
         const newProduct = {
           id: productId,
+          _id: product._id,
           name: product.name,
           color,
           amount,
-          image: product.image[0].url,
-          price: product.price,
+          imageUrl: product.imageUrl || "",
+          price: product.Sale_Price,
           max: product.stock,
         };
         return { ...state, cart: [...(state.cart || []), newProduct] };

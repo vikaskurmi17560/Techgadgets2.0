@@ -5,7 +5,11 @@ import styled from "styled-components";
 const PageNavigation = ({ title }) => {
   return (
     <Wrapper>
-      <NavLink to="/">Home</NavLink>/{title}
+      <nav aria-label="Breadcrumb">
+        <NavLink to="/">Home</NavLink>
+        <span className="separator"> / </span>
+        <span>{title}</span>
+      </nav>
     </Wrapper>
   );
 };
@@ -21,6 +25,10 @@ const Wrapper = styled.section`
 
   a {
     font-size: 3.2rem;
+  }
+  .separator {
+    margin: 0 0.5rem;
+    color: ${({ theme }) => theme.colors.text};
   }
 `;
 

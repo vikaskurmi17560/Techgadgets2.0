@@ -6,7 +6,7 @@ import { Button } from "../Styles/Button";
 
 const FilterSection = () => {
   const {
-    filters: { text, category, color, price, maxPrice, minPrice, company }, 
+    filters: { text, category, color, price, maxPrice, minPrice, company },
     updateFilterValue,
     all_products,
     clearFilters,
@@ -14,15 +14,15 @@ const FilterSection = () => {
 
   const getUniqueData = (data, attr) => {
     let newVal = data.map((curElem) => curElem[attr]);
-    if (attr === "colors") {
+    if (attr === "color") {
       newVal = newVal.flat();
     }
     return ["all", ...new Set(newVal)];
   };
 
   const categoryData = getUniqueData(all_products, "category");
-  const companyData = getUniqueData(all_products, "company");
-  const colorsData = getUniqueData(all_products, "colors");
+  const companyData = getUniqueData(all_products, "Brand");
+  const colorsData = getUniqueData(all_products, "color");
 
   return (
     <Wrapper>
@@ -57,14 +57,14 @@ const FilterSection = () => {
       </div>
 
       <div className="filter-company">
-        <h3>Company</h3>
+        <h3>Brand</h3>
         <form>
           <select
             name="company"
             id="company"
             className="filter-company--select"
             onChange={updateFilterValue}
-            value={company} 
+            value={company}
           >
             {companyData.map((curElem, index) => (
               <option key={index} value={curElem}>
@@ -78,7 +78,7 @@ const FilterSection = () => {
       <div className="filter-colors colors">
         <h3>Colors</h3>
         <div className="filter-color-style">
-          {colorsData.map((curColor, index) => (
+          {colorsData.map((curColor, index) =>
             curColor === "all" ? (
               <button
                 key={index}
@@ -103,7 +103,7 @@ const FilterSection = () => {
                 {color === curColor ? <FaCheck className="checkStyle" /> : null}
               </button>
             )
-          ))}
+          )}
         </div>
       </div>
 
@@ -136,6 +136,14 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 3rem;
+
+  /* Sticky only on big screens */
+  @media (min-width: 1024px) {
+    position: sticky;
+    top: 100px; /* adjust as needed for your header */
+    align-self: flex-start;
+    z-index: 2;
+  }
 
   h3 {
     padding: 2rem 0;

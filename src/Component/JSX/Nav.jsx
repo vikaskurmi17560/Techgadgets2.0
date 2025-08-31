@@ -5,7 +5,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useCartContext } from "../Context/Cart_Context";
 
-// Define the styled component outside of the functional component
+
 const StyledNav = styled.nav`
   .navbar-lists {
     display: flex;
